@@ -9,17 +9,23 @@
 
   <script type="text/babel">
     const root = document.getElementById("root");
-    let counter = 10;
-    function countUp() {
-      counter = counter + 1;
+    function App() {
+      const [counter, setCounter] = React.useState(0);
+      const onClick = () =>
+        //setCounter(counter + 1); can cause a bug. with things like operater for counter.
+        //first arg of state[1] is current value of state[0]
+        setCounter((current) => current + 1);
+      // state modified -> whole component rerendor
+      // But this process is not creating all the elements inside.
+      // React updates only what should be modified
+      return (
+        <div>
+          <h3>Total Click : {counter}</h3>
+          <button onClick={onClick}>Click me</button>
+        </div>
+      );
     }
-    const Container = () => (
-      <div>
-        <h3>Total Click : {counter}</h3>
-        <button onClick={countUp}>Click me</button>
-      </div>
-    );
 
-    ReactDOM.render(<Container />, root);
+    ReactDOM.render(<App />, root);
   </script>
 </html>
